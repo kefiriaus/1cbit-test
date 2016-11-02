@@ -1,0 +1,22 @@
+<script>
+    var theItem = null;
+    var replaceItem = function () {
+        var priorItem = theItem;
+        var writeToLog = function () {
+            if (priorItem) {
+                console.log("hi");
+            }
+        };
+        theItem = {
+            longStr: new Array(1000000).join('*'),
+            someMethod: function () {
+                console.log(someMessage);
+            }
+        };
+
+        console.log('Выполняется только один раз!');
+        clearInterval(iId); // позволяет выполнить метод только один раз с указанной задержкой
+    };
+    // setInterval(replaceItem, 1000); - бесконечное выполнение метода replaceItem и бесконечное выделение памяти
+    var iId = setInterval(replaceItem, 1000);
+</script>

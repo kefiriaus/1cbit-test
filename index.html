@@ -1,0 +1,93 @@
+<div id="bit">
+    <div class="bit-header">1С Бит</div>
+    <div class="bit-content">БИТ-крупнейшая региональная сеть среди 1С: Франчайзи</div>
+</div>
+
+<hr />
+
+<div id="bit2">
+    <div class="bit-header">1С Бит 2</div>
+    <div class="bit-content">Первый БИТ-крупнейшая региональная сеть среди 1С: Франчайзи</div>
+</div>
+
+<style>
+    div {
+        color: blue;
+    }
+    div.bit-header {
+        font-weight: bold;
+        cursor: pointer;
+    }
+    div.bit-content {
+        display: none;
+    }
+</style>
+<script>
+    Block = function(id) {
+        this.obj = document.getElementById(id);
+        this.header = this.obj.getElementsByClassName('bit-header')[0];
+        this.content = this.obj.getElementsByClassName('bit-content')[0];
+    };
+    Block.prototype.click = function() {
+        var self = this;
+        self.header.onclick = function(e) {
+            e.preventDefault();
+            self.content.style.display = (self.content.style.display == 'none' || self.content.style.display == '') ? 'block' : 'none';
+        }
+    };
+
+    Block2 = function(id) {
+        Block.apply(this, arguments);
+    };
+
+    Block2.prototype = Object.create(Block.prototype);
+    Block2.prototype.constructor = Block2;
+
+    Block2.prototype.click = function() {
+        var self = this;
+
+        this.header.onclick = function(e) {
+            e.preventDefault();
+
+            var fadeIn = function() {
+                var o = parseFloat(self.content.style.opacity);
+                if (o < 1) {
+                    self.content.style.opacity = parseFloat(self.content.style.opacity) + 0.1;
+                } else {
+                    clearInterval(fade);
+                }
+            };
+
+            var fadeOut = function() {
+                var o = parseFloat(self.content.style.opacity);
+                if (o > 0) {
+                    self.content.style.opacity = parseFloat(self.content.style.opacity) - 0.1;
+                } else {
+                    self.content.style.display = 'none';
+                    clearInterval(fade);
+                }
+            };
+
+            var fadeToggle = function(speed) {
+
+                if (self.content.style.display == 'none' || self.content.style.display == '') {
+                    self.content.style.display = 'block';
+                    self.content.style.opacity = 0;
+
+                    fade = setInterval(fadeIn, speed);
+                } else {
+                    fade = setInterval(fadeOut, speed);
+                }
+            };
+
+            var fade = null;
+            fadeToggle(50);
+        }
+    };
+
+    div = new Block('bit');
+    div.click();
+
+    div2 = new Block2('bit2');
+    div2.click();
+</script>
